@@ -1,0 +1,6 @@
+version: 2
+sources:
+  - name: employees
+    tables:
+      - name: employees
+        schema: employees
