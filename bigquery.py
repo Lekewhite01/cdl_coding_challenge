@@ -25,6 +25,11 @@ spark = SparkSession(sc).builder \
 # load all environment variables 
 load_dotenv(find_dotenv())
 
+# specifying BigQuery connection parameters
+project_id = "<project_id>"
+dataset_name = "<dataset_name>"
+table_name = "<table_name>"
+
 # specifying database connection parameters
 url = "jdbc:mysql://localhost:3306/employees?serverTimezone=UTC"
 properties = {
@@ -38,6 +43,13 @@ table_name = "employees_transformed"
 df = spark.read.jdbc(url=url, table=table_name, properties=properties)
 
 #show dataframe
-df.show()
+# df.show()
+
+# write dataframe to BigQuery
+df.write \
+    .format("bigquery") \
+    .option("table", f"{project_id}:{dataset_name}.{table_name}") \
+    .mode("overwrite") \
+    .save()
 
 
